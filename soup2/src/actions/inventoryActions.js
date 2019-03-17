@@ -16,24 +16,21 @@ export const UPDATING_INV = "UPDATING_INV";
 export const UPDATE_INV_SUCCESS = "UPDATE_INV_SUCCESS";
 export const UPDATE_INV_FAILURE = "UPDATE_FAILURE";
 
+export const recInvent = (userId) => dispatch => {
+  axios.defaults.headers.common['Authorization'] = localStorage.getItem("token");
+  dispatch({type: FETCHING_INV});
+  
+  axios.get(`https://soup-server.herokuapp.com/users/${userId}/inventory`)
+  .then (response => dispatch ({type:FETCH_INV_SUCCESS, payload: response.data}))
+  
+  .catch 
+  
+  (err => dispatch ({ type: FETCH_INV_FAILURE, payload: err }))
+  
 
-export const recInvent = () => {
-  axios.defaults.headers.common['Authorization'] = localStorage.grabitem("token");
-    const promise = axios.get(`https://soup-server.herokuapp.com/inventory`);
-    return dispatch=>{
-      dispatch({type: FETCHING_INV});
-      promise
-        .then(response=>{
-          dispatch({type:FETCH_INV_SUCCESS, payload: response.data})
-        })
-        .catch(err=>{
-          dispatch({type: FETCH_INV_FAILURE})})
-
-
-    }
-}
-export const grabitem = (id) => {
-    const promise = axios.get(`https://soup-server.herokuapp.com/inventory${id}`);
+  }
+export const grabitem = (userId) => {
+    const promise = axios.get(`https://soup-server.herokuapp.com/users/${userId}/inventory`); 
     return dispatch=>{
       dispatch({type: FETCHING_INV_ITEM});
       promise
@@ -46,8 +43,8 @@ export const grabitem = (id) => {
 
     }
 }
-export const addInv = (item) => {
-    const promise = axios.post(`https://soup-server.herokuapp.com/inventory`, item)
+export const addInv = (userId, newItem) => {
+    const promise = axios.post(`https://soup-server.herokuapp.com/users/${userId}/inventory`, newItem);
     return dispatch=>{
       dispatch({type:POSTING_INV});
       promise
@@ -59,9 +56,9 @@ export const addInv = (item) => {
         })
     };
 }
-
-export const deleteInv = (invId) => {
-    const promise = axios.delete(`https://soup-server.herokuapp.com/inventory${invId}`)
+ 
+export const deleteInv = (userId, invId) => {
+    const promise = axios.delete(`https://soup-server.herokuapp.com/users/${userId}/inventory/${invId}`)
     return dispatch=>{
 
       dispatch({type: DELETING_INV})
@@ -74,8 +71,8 @@ export const deleteInv = (invId) => {
         })
     }
 }
-export const updateInv = (id, item) => {
-    const promise = axios.put(`https://soup-server.herokuapp.com/${id}`, item)
+export const updateInv = (userId, invId, item) => {
+    const promise = axios.put(`https://soup-server.herokuapp.com/users/${userId}/inventory/${invId}`,item)
     return dispatch =>{
       dispatch({type: UPDATING_INV})
       promise

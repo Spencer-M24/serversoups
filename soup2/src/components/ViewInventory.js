@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import './index.css'
+import './index.css'
 import { recInvent } from "../actions/inventoryActions";
 import { connect } from "react-redux";
 
@@ -7,18 +7,19 @@ import { connect } from "react-redux";
 let itemsShow = [];
 let inventoryArr = [];
 
-class DisplayInventory extends Component {
+class ViewInventory extends Component {
     constructor(props) {
-        super();
+        super(props);
     }
     componentDidMount() {
-        this.props.recInvent();
-        if (localStorage.grabitem("token")) {
+        this.props.recInvent(this.props.userId); // take off props works
+        if (localStorage.getItem("token")) {
         }
     }
     delete = id => {};
 
     update = id => {};
+
 
     render() {
         inventoryArr = this.props.inventory;
@@ -27,7 +28,6 @@ class DisplayInventory extends Component {
                 itemsShow.push(inventoryArr[i]);
             }
         }
-
         return (
             <div>
                 {this.props.fetchingInv ? (
@@ -43,8 +43,8 @@ class DisplayInventory extends Component {
                                     <button onClick={e => this.update(item.id)}>
                                         Update
                                     </button>
-                                    <div key={item.id} className="item">
-                                        {item.name} {item.quantity} {item.units}
+                                    <div key= {item.id} className="item">
+                                        {item.name} {item.qty} {item.categoryId}
                                     </div>
                                 </div>
                             );
@@ -60,11 +60,12 @@ const mapStateToProps = state => {
     return {
         fetchingInv: state.inventory.fetchingInv,
         inventory: state.inventory.inventory,
-        postingInv: state.inventory.postingInv
+        postingInv: state.inventory.postingInv,
+        userId: state.userAccounts.userId
     };
 };
 
 export default connect(
     mapStateToProps,
     { recInvent }
-)(DisplayInventory);
+)(ViewInventory);

@@ -41,11 +41,11 @@ export const logIn = credentials => {
 		credentials
 	);
 	return dispatch => {
-		dispatch({ type: LOGGING_IN });
+		dispatch({ type: LOGGING_IN }); 
 		promise
 			.then(response => {
 				localStorage.setItem("token", response.data.token);
-				dispatch({ type: LOGIN_SUCCESS, payload: true });
+				dispatch({ type: LOGIN_SUCCESS, payload: response.data.userId });
 			})
 			.catch(err => {
 				dispatch({ type: LOGIN_FAILURE, error: "Error loggin in." });

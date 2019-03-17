@@ -16,8 +16,10 @@ class App extends Component {
       <div className="App">
         <Login />
         <Route path ="/register" component = {Register}/>
-        <Route path = "/display" component = {ViewInventory} />
+        <Route path = "/view" component = {ViewInventory} />
         <Route path = "/inventory" component = {Inventory} />
+        <Route exact path="/" component={ViewInventory} />
+
       </div>
     );
   }

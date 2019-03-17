@@ -15,45 +15,56 @@ class Inventory extends Component {
     recInvent = e => {
         this.props.recInvent();
     };
-    grabitem0 = e => {
+    grabitem = e => {
         this.props.grabitem(5);
     };
-
     render() {
         return (
             <div>
                 <button onClick={this.recInvent}>Display Inventory </button>
-                <button onClick={this.grabitem0}>Items </button>
+                <button onClick={this.grabitem}>Items </button>
                 <button
                     onClick={() =>
-                        this.props.addInv({
-                            name: "", //required
-                            quantity: "",
-                            units: ""
+                        this.props.addInv( this.props.userId, { 
+                            name: "Sugar", // string, required
+                            qty: 123, // integer, required 
+                            categoryId: 123, // ingeger, required
+                            units: "cups", // string, optional
+                            imageUrl: "", // string, optional
+                            inStock: true, // boolean, optional
+                            description: "" // string, optional
                         })
-                    }>
-                    Testing
+                    }
+                >
+                    Add 123 cups of Sugar
                 </button>
-                <button onClick={() => this.props.deleteInv(45)}>Remove</button>
+                <button onClick={() => this.props.deleteInv(this.props.userId)}>
+                    Remove Sugar
+                </button>
                 <button
                     onClick={() =>
                         this.props.updateInv(1, {
-                            name: "", //required
-                            qty: 0,
+                            name: "Pop Corn", //required
+                            qty: 22,
                             units: "pound"
-                        })}>
-                    Update{" "}
+                        })
+                    }
+                >
+                    Update Sugar
                 </button>
             </div>
         );
     }
 }
 
+
 const mapStateToProps = state => {
     return {
         fetchingInv: state.inventory.fetchingInv,
         inventory: state.inventory.inventory,
-        postingInv: state.inventory.postingInv
+        postingInv: state.inventory.postingInv,
+        userId: state.userAccounts.userId
+
     };
 };
 export default connect(

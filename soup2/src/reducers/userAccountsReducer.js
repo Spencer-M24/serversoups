@@ -11,25 +11,29 @@ const initialState = {
     error: null,
     loggingIn: false,
     loginInfo: localStorage.getItem("token"),
-    registration: null
+    registration: null,
+    userId: null
 };
+
 
 export default (state = initialState, action) => {
     switch (action.type) {
         case REGISTERING:
-            return { registering: true };
+            return { ...state, registering: true };
         case REGISTER_SUCCESS:
-            return { registering: false, registration: action.payload };
+            return { ...state, registering: false, registration: action.payload };
         case REGISTER_FAILURE:
-            return { registering: false, error: "Could not register user" };
+            return { ...state, registering: false, error: "Could not register user" };
         case LOGGING_IN:
-            return { loggingIn: true };
+            return { ...state, loggingIn: true };
         case LOGIN_SUCCESS:
-            console.log("Yes success");
 
-            return { loggingIn: false, loginInfo: action.payload };
+            return {...state, userId: action.payload, loggingIn: false, }; 
+            // console.log("Yes success");
+
+            // return { loggingIn: false, loginInfo: action.payload };
         case LOGIN_FAILURE:
-            return { loggingIn: true, error: "Error logging in." };
+            return { ...state, loggingIn: true, error: "Error logging in." };
         default:
             return state;
     }
